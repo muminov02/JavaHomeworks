@@ -1,0 +1,40 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.PriorityQueue;
+
+public class ToyQueueApp {
+    public static void main(String[] args) {
+        PriorityQueue<Toy> toyQueue = new PriorityQueue<>();
+
+        // Заполнение массивов данными из строк
+        String[] ids = {"1", "2", "3"};
+        String[] names = {"Игрушка 1", "Игрушка 2", "Игрушка 3"};
+        int[] frequencies = {4, 5, 5};
+
+        for (int i = 0; i < ids.length; i++) {
+            Toy toy = new Toy(Integer.parseInt(ids[i]), names[i], frequencies[i]);
+            toyQueue.offer(toy);
+        }
+
+        // Организация общей очереди
+        for (int i = 0; i < 10; i++) {
+            Toy toy = toyQueue.poll();
+            if (toy != null) {
+                System.out.println("Выпала игрушка: " + toy.name);
+                saveToFile(toy.name);
+            } else {
+                System.out.println("Очередь пуста.");
+            }
+        }
+    }
+
+    private static void saveToFile(String content) {
+        try {
+            FileWriter writer = new FileWriter("output.txt", true);
+            writer.write(content + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
